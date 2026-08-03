@@ -54,7 +54,9 @@
 
 ; Quoted content
 
-(interpolation "#{" @punctuation.special "}" @punctuation.special) @embedded
+(interpolation
+  "#{" @punctuation.section.embedded.begin.elixir
+  "}" @punctuation.section.embedded.end.elixir) @meta.embedded.line.interpolation.elixir
 
 (escape_sequence) @constant.character.escape.elixir
 
