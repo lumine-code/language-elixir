@@ -1,0 +1,12 @@
+{
+  ".source.elixir": {
+    "language": {
+      "commentStart": "# ",
+      "increaseIndentPattern": "\\{[^}\"']*$",
+      "decreaseIndentPattern": "^\\s*\\}"
+    },
+    "bracket-matcher": {
+      "autocompleteCharacters": ["()", "[]", "{}", "\"\"", "''"]
+    }
+  }
+}

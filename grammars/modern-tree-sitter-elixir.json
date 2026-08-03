@@ -1,0 +1,21 @@
+{
+  "name": "Elixir",
+  "scopeName": "source.elixir",
+  "type": "modern-tree-sitter",
+  "parser": "tree-sitter-elixir",
+  "injectionRegex": "^(elixir)$",
+  "fileTypes": ["ex", "exs"],
+  "comments": {
+    "start": "# "
+  },
+  "treeSitter": {
+    // Pin a tag or a full SHA, never a branch. Verify the ref is on the main
+    // line before trusting it — `gh api repos/OWNER/REPO/compare/<ref>...HEAD`
+    // reporting `diverged` or a nonzero `behind` means it is not.
+    "parserSource": "github:elixir-lang/tree-sitter-elixir#v0.3.5",
+    "wasmBuildTool": "tree-sitter-cli#v0.26.11",
+    "grammar": "tree-sitter-elixir/tree-sitter-elixir.wasm",
+    "highlightsQuery": "tree-sitter-elixir/highlights.scm",
+    "tagsQuery": "tree-sitter-elixir/tags.scm"
+  }
+}
