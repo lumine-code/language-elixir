@@ -50,7 +50,8 @@
 
 ; Comment
 
-(comment) @comment.line.elixir
+((comment) @comment.line.elixir
+  (#set! adjust.endBeforeFirstMatchOf "\\r?$"))
 
 ; Quoted content
 
@@ -74,22 +75,69 @@
 
 ; Note that we explicitly target sigil quoted start/end, so they are not overridden by delimiters
 
-(sigil
-  (sigil_name) @_IGNORE_.name__
-  quoted_start: _ @string.other.elixir
-  quoted_end: _ @string.other.elixir) @string.other.elixir
+(sigil) @string.other.elixir
 
-(sigil
-  (sigil_name) @_IGNORE_.name__
-  quoted_start: _ @string.quoted.double.elixir
-  quoted_end: _ @string.quoted.double.elixir
-  (#match? @_IGNORE_.name__ "^[sS]$")) @string.quoted.double.elixir
+([
+  "\""
+  "\"\"\""
+  "'"
+  "'''"
+  "("
+  ")"
+  "/"
+  "<"
+  ">"
+  "["
+  "]"
+  "{"
+  "}"
+  "|"
+] @string.other.elixir
+  (#is? test.childOfType sigil))
 
-(sigil
-  (sigil_name) @_IGNORE_.name__
-  quoted_start: _ @string.quoted.double.regex.elixir
-  quoted_end: _ @string.quoted.double.regex.elixir
-  (#match? @_IGNORE_.name__ "^[rR]$")) @string.quoted.double.regex.elixir
+((sigil) @string.quoted.double.elixir
+  (#is? test.matchAt "firstNamedChild ^[sS]$"))
+
+([
+  "\""
+  "\"\"\""
+  "'"
+  "'''"
+  "("
+  ")"
+  "/"
+  "<"
+  ">"
+  "["
+  "]"
+  "{"
+  "}"
+  "|"
+] @string.quoted.double.elixir
+  (#is? test.childOfType sigil)
+  (#is? test.matchAt "parent.firstNamedChild ^[sS]$"))
+
+((sigil) @string.quoted.double.regex.elixir
+  (#is? test.matchAt "firstNamedChild ^[rR]$"))
+
+([
+  "\""
+  "\"\"\""
+  "'"
+  "'''"
+  "("
+  ")"
+  "/"
+  "<"
+  ">"
+  "["
+  "]"
+  "{"
+  "}"
+  "|"
+] @string.quoted.double.regex.elixir
+  (#is? test.childOfType sigil)
+  (#is? test.matchAt "parent.firstNamedChild ^[rR]$"))
 
 ; Calls
 
@@ -129,16 +177,15 @@
   (#any-of? @keyword.control.elixir "alias" "case" "cond" "for" "if" "import" "quote" "raise" "receive" "require" "reraise" "super" "throw" "try" "unless" "unquote" "unquote_splicing" "use" "with"))
 
 ; * just identifier in function definition
-(call
-  target: (identifier) @keyword.control.elixir
-  (arguments
-    [
-      (identifier) @entity.name.function.elixir
-      (binary_operator
-        left: (identifier) @entity.name.function.elixir
-        operator: "when")
-    ])
-  (#any-of? @keyword.control.elixir "def" "defdelegate" "defguard" "defguardp" "defmacro" "defmacrop" "defn" "defnp" "defp"))
+((identifier) @entity.name.function.elixir
+  (#is? test.childOfType arguments)
+  (#is? test.matchAt "parent.previousNamedSibling ^def(?:delegate|guardp?|macrop?|n|np|p)?$"))
+
+; * guarded identifier in function definition
+(binary_operator
+  left: (identifier) @entity.name.function.elixir
+  operator: "when"
+  (#is? test.matchAt "parent.parent.previousNamedSibling ^def(?:delegate|guardp?|macrop?|n|np|p)?$"))
 
 ; * pipe into identifier (function call)
 (binary_operator
@@ -146,13 +193,10 @@
   right: (identifier) @entity.name.function.elixir)
 
 ; * pipe into identifier (definition)
-(call
-  target: (identifier) @keyword.control.elixir
-  (arguments
-    (binary_operator
-      operator: "|>"
-      right: (identifier) @variable.other.elixir))
-  (#any-of? @keyword.control.elixir "def" "defdelegate" "defguard" "defguardp" "defmacro" "defmacrop" "defn" "defnp" "defp"))
+(binary_operator
+  operator: "|>"
+  right: (identifier) @variable.other.elixir
+  (#is? test.matchAt "parent.parent.previousNamedSibling ^def(?:delegate|guardp?|macrop?|n|np|p)?$"))
 
 ; * pipe into field without parentheses (function call)
 (binary_operator
@@ -202,12 +246,32 @@
       [
         (string) @comment.line.doc.elixir
         (charlist) @comment.line.doc.elixir
-        (sigil
-          quoted_start: _ @comment.line.doc.elixir
-          quoted_end: _ @comment.line.doc.elixir) @comment.line.doc.elixir
+        (sigil) @comment.line.doc.elixir
         (boolean) @comment.line.doc.elixir
       ]))
   (#any-of? @comment.line.doc.__attribute__.elixir "moduledoc" "typedoc" "doc"))
+
+([
+  "\""
+  "\"\"\""
+  "'"
+  "'''"
+  "("
+  ")"
+  "/"
+  "<"
+  ">"
+  "["
+  "]"
+  "{"
+  "}"
+  "|"
+] @comment.line.doc.elixir
+  (#is? test.childOfType sigil)
+  (#is? test.typeAt "parent.parent arguments")
+  (#is? test.typeAt "parent.parent.parent call")
+  (#is? test.typeAt "parent.parent.parent.parent unary_operator")
+  (#is? test.matchAt "parent.parent.parent.firstNamedChild ^(?:moduledoc|typedoc|doc)$"))
 
 ; Module
 
