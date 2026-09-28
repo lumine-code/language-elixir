@@ -18,12 +18,12 @@ describe("Elixir highlight query locality", () => {
     await editor.languageMode.ready;
   }
 
-  function capturesForRows(startRow, endRow) {
-    const layer = editor.languageMode.rootLanguageLayer;
-    return layer.queries.highlightsQuery.captures(layer.tree.rootNode, {
+  async function capturesForRows(startRow, endRow) {
+    const groups = await editor.getGrammarQueryCaptureGroups("highlightsQuery", {
       startPosition: new Point(startRow, 0),
       endPosition: new Point(endRow, 0),
     });
+    return groups.find(({ grammar }) => grammar === editor.getGrammar())?.captures ?? [];
   }
 
   it("keeps definition classification local inside a 6000-row call", async () => {
@@ -44,8 +44,8 @@ describe("Elixir highlight query locality", () => {
     for (let i = 0; i < 6000; i++) lines.push(`  value_${i}`);
     lines.push("end");
     await setUp(lines.join("\r\n"));
-    expect(editor.languageMode.rootLanguageLayer.tree.rootNode.hasError).toBe(false);
-    expect(capturesForRows(2998, 3004).length).toBeLessThanOrEqual(96);
+    expect((await editor.getSyntaxDiagnostics()).hasError).toBe(false);
+    expect((await capturesForRows(2998, 3004)).length).toBeLessThanOrEqual(96);
   });
 
   it("keeps sigil scopes local inside a 6000-row sigil", async () => {
@@ -72,14 +72,14 @@ describe("Elixir highlight query locality", () => {
     for (let i = 0; i < 6000; i++) lines.push(`line #{value_${i}}`);
     lines.push('"""');
     await setUp(lines.join("\r\n"));
-    expect(editor.languageMode.rootLanguageLayer.tree.rootNode.hasError).toBe(false);
-    expect(capturesForRows(2998, 3004).length).toBeLessThanOrEqual(64);
+    expect((await editor.getSyntaxDiagnostics()).hasError).toBe(false);
+    expect((await capturesForRows(2998, 3004)).length).toBeLessThanOrEqual(64);
 
     const docLines = ['@doc ~s"""'];
     for (let i = 0; i < 6000; i++) docLines.push(`line #{value_${i}}`);
     docLines.push('"""', "def value, do: :ok");
     await setUp(docLines.join("\r\n"));
-    expect(editor.languageMode.rootLanguageLayer.tree.rootNode.hasError).toBe(false);
-    expect(capturesForRows(2998, 3004).length).toBeLessThanOrEqual(80);
+    expect((await editor.getSyntaxDiagnostics()).hasError).toBe(false);
+    expect((await capturesForRows(2998, 3004)).length).toBeLessThanOrEqual(80);
   });
 });
