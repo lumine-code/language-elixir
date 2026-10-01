@@ -16,6 +16,7 @@
     "wasmBuildTool": "tree-sitter-cli#v0.27.0",
     "grammar": "elixir.wasm",
     "highlightsQuery": "elixir-highlights.scm",
+    "injectionsQuery": "elixir-injections.scm",
     "tagsQuery": "elixir-tags.scm"
   }
 }
