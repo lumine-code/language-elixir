@@ -29,6 +29,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
+  "specPackages": [
+    "language-shellscript"
+  ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.11.0",
