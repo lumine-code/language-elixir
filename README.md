@@ -6,7 +6,6 @@ Elixir language support.
 
 - **Grammars**: provides Tree-sitter grammars, built from [tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir).
 - **Syntax highlighting**: full tree-sitter grammar coverage for Elixir files.
-- **Folding**: folds blocks from the parse tree rather than by indentation.
 
 ## Installation
 
