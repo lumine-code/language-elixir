@@ -1,0 +1,16 @@
+{
+  "title": "language-elixir",
+  "description": "Elixir syntax highlighting in the editor.",
+  "recordedOn": "2026-10-13",
+  "sourceRevision": "05b13aeace250e11fda480e1b7b43eac31a2fa76",
+  "mode": "normal",
+  "fontSettings": "default",
+  "images": [
+    {
+      "file": "demo.png",
+      "label": "Elixir syntax highlighting at the default editor font size.",
+      "width": 1100,
+      "height": 360
+    }
+  ]
+}

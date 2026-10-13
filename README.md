@@ -7,6 +7,8 @@ Elixir language support.
 - **Grammars**: provides Tree-sitter grammars, built from [tree-sitter-elixir](https://github.com/elixir-lang/tree-sitter-elixir).
 - **Syntax highlighting**: full tree-sitter grammar coverage for Elixir files.
 
+![Elixir syntax highlighting at the default editor font size.](.github/demo.png)
+
 ## Installation
 
 To install `language-elixir` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/language-elixir`.
