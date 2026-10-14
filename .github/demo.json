@@ -1,16 +1,61 @@
 {
   "title": "language-elixir",
-  "description": "Elixir syntax highlighting in the editor.",
-  "recordedOn": "2026-10-13",
-  "sourceRevision": "05b13aeace250e11fda480e1b7b43eac31a2fa76",
+  "description": "Elixir syntax highlighting at the default editor font size.",
+  "recordedOn": "2026-10-14",
+  "sourceRevision": "3228380d68c5844bbdcc11016c387729281c72f8",
+  "themeSourceRevision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
   "mode": "normal",
   "fontSettings": "default",
+  "scenario": "demo.js",
+  "recipeHash": "4435a966e9d3ee81cc25ae6119415e65d8e98e9b6ad05b8ac0374aa81e2f0dcd",
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "electron": "44.7.0",
+    "chrome": "152.0.7977.130",
+    "devicePixelRatio": 1,
+    "locale": "en-GB",
+    "fontFamily": "Fira Code, Menlo, DejaVu Sans Mono, Consolas, monospace",
+    "fontSize": 14,
+    "themes": ["one-day-syntax", "one-day-ui"]
+  },
+  "viewport": { "width": 1100, "height": 360 },
+  "cornerRadius": 10,
+  "sources": {
+    "editor": {
+      "revision": "c4d7a05fe6960ae6fb041981d6cf13e9c0286b17",
+      "dirty": true,
+      "workingTreeHash": "af0ec098e764416df9522f3c6e555050b520e4700da382b2b983b2ff3742bd0a"
+    },
+    "package": {
+      "revision": "3228380d68c5844bbdcc11016c387729281c72f8",
+      "dirty": true,
+      "workingTreeHash": "3c8f41243e3910930f68e3611bd3e5ef076a9962be6d472888411a4d01ba037f"
+    },
+    "language-elixir": {
+      "revision": "3228380d68c5844bbdcc11016c387729281c72f8",
+      "dirty": true,
+      "workingTreeHash": "3c8f41243e3910930f68e3611bd3e5ef076a9962be6d472888411a4d01ba037f"
+    },
+    "one-theme": {
+      "revision": "14a69683b0e3238e2bc128fbfae3866c1e4ee9c6",
+      "dirty": true,
+      "workingTreeHash": "25d6ed50595d6b10f7d53e41dbbe8f92dcb5c0e911871356f3e6138e5c76df57"
+    }
+  },
+  "fixtures": [
+    {
+      "file": "example.ex",
+      "sha256": "16323b54f086c31b29516c325477ce752bae3cb05a02192f1bd31e543c9a2294"
+    }
+  ],
   "images": [
     {
       "file": "demo.png",
       "label": "Elixir syntax highlighting at the default editor font size.",
       "width": 1100,
-      "height": 360
+      "height": 360,
+      "sha256": "cd9703a86993d0a78212357dc009c61145d8cd386a3d467d28453fbb1d64fce7"
     }
   ]
 }
