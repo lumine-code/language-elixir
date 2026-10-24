@@ -13,7 +13,7 @@
     // line before trusting it — `gh api repos/OWNER/REPO/compare/<ref>...HEAD`
     // reporting `diverged` or a nonzero `behind` means it is not.
     "parserSource": "github:elixir-lang/tree-sitter-elixir#cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9",
-    "wasmBuildTool": "tree-sitter-cli#v0.27.0",
+    "wasmBuildTool": "tree-sitter-cli#v0.27.1",
     "grammar": "elixir.wasm",
     "highlightsQuery": "elixir-highlights.scm",
     "injectionsQuery": "elixir-injections.scm",
