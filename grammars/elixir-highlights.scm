@@ -38,8 +38,8 @@
 
 ; * unused
 (
-  (identifier) @comment.line.unused.elixir
-  (#match? @comment.line.unused.elixir "^_")
+  (identifier) @comment.other.unused.elixir
+  (#match? @comment.other.unused.elixir "^_")
 )
 
 ; * special
@@ -239,17 +239,17 @@
 
 ; * doc string
 (unary_operator
-  operator: "@" @comment.line.doc.elixir
+  operator: "@" @comment.block.doc.elixir
   operand: (call
-    target: (identifier) @comment.line.doc.__attribute__.elixir
+    target: (identifier) @comment.block.doc.__attribute__.elixir
     (arguments
       [
-        (string) @comment.line.doc.elixir
-        (charlist) @comment.line.doc.elixir
-        (sigil) @comment.line.doc.elixir
-        (boolean) @comment.line.doc.elixir
+        (string) @comment.block.doc.elixir
+        (charlist) @comment.block.doc.elixir
+        (sigil) @comment.block.doc.elixir
+        (boolean) @comment.block.doc.elixir
       ]))
-  (#any-of? @comment.line.doc.__attribute__.elixir "moduledoc" "typedoc" "doc"))
+  (#any-of? @comment.block.doc.__attribute__.elixir "moduledoc" "typedoc" "doc"))
 
 ([
   "\""
@@ -266,7 +266,7 @@
   "{"
   "}"
   "|"
-] @comment.line.doc.elixir
+] @comment.block.doc.elixir
   (#is? test.childOfType sigil)
   (#is? test.typeAt "parent.parent arguments")
   (#is? test.typeAt "parent.parent.parent call")
