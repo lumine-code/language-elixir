@@ -1,3 +1,10 @@
+; An unfinished DO block may drop the heredoc/sigil owner but keep its content.
+((quoted_content) @preserve
+  (#is? test.childOfType ERROR)
+  (#is? indent.reindent true)
+  (#is-not? indent.matchesCurrentRow startPosition)
+  (#set! indent.force true))
+
 ; Reindent changes code structure, never the contents of multiline literals
 ; or the alignment a user chose inside a block comment.
 ([(string) (charlist) (sigil) (quoted_atom) (comment)] @preserve
