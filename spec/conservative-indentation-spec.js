@@ -52,4 +52,50 @@ describe("Conservative elixir indentation", () => {
     editor.autoIndentBufferRows(0, editor.getLastBufferRow() - 1);
     expect(editor.getText()).toBe(source);
   });
+
+  it("does not treat unfinished sigil delimiters as code containers", async () => {
+    for (const source of [
+      "value = ~r({",
+      "value = ~s{raw",
+      "value = ~s[raw",
+      "value = ~S(raw",
+      'value = "{',
+    ]) {
+      editor.setText(source);
+      await editor.whenGrammarSettled();
+      editor.setCursorBufferPosition([0, Infinity]);
+      editor.insertText("\n", { autoIndent: true, autoIndentNewline: true });
+      await editor.whenGrammarSettled();
+      expect(editor.lineTextForBufferRow(1)).withContext(source).toBe("");
+    }
+  });
+
+  it("retains the inherited margin inside an unfinished sigil", async () => {
+    for (const value of ["~r({", "~s{raw", "~s[raw"]) {
+      editor.setText(`if ready do\n    value = ${value}`);
+      await editor.whenGrammarSettled();
+      editor.setCursorBufferPosition([1, Infinity]);
+      editor.insertText("\n", { autoIndent: true, autoIndentNewline: true });
+      await editor.whenGrammarSettled();
+      expect(editor.lineTextForBufferRow(2)).withContext(value).toBe("    ");
+    }
+  });
+
+  it("keeps real code containers and interpolation independent of sigil delimiters", async () => {
+    for (const source of [
+      "values = [",
+      "values = {",
+      "if ready do",
+      "values = [~r(foo),",
+      "values = {~s[foo],",
+      "value = ~s{#{[\n]}}",
+    ]) {
+      editor.setText(source);
+      await editor.whenGrammarSettled();
+      editor.setCursorBufferPosition([0, Infinity]);
+      editor.insertText("\n", { autoIndent: true, autoIndentNewline: true });
+      await editor.whenGrammarSettled();
+      expect(editor.lineTextForBufferRow(1)).withContext(source).toBe("    ");
+    }
+  });
 });

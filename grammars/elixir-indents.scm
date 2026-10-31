@@ -10,6 +10,14 @@
 ; Interpolation has a distinct opener and must not close an outer container.
 (interpolation "}" @_IGNORE_ (#set! capture.final true))
 
+; A sigil's paired delimiters quote text rather than opening a code container.
+; Ignore both ends so a complete sigil cannot cancel an enclosing list's hint.
+(sigil ["(" ")" "[" "]" "{" "}"] @_IGNORE_
+  (#set! capture.final true))
+; A surrounding incomplete DO block can drop the sigil wrapper as well.
+(ERROR "~" . (sigil_name) . ["(" "[" "{"] @_IGNORE_
+  (#set! capture.final true))
+
 ["(" "[" "{"] @indent
 [")" "]" "}"] @dedent
 
