@@ -31,7 +31,8 @@
     "format:check": "prettier --check ."
   },
   "specPackages": [
-    "language-shellscript"
+    "language-shellscript",
+    "language-source"
   ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",

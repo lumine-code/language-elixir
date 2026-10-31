@@ -5,6 +5,7 @@
   "parser": "tree-sitter-elixir",
   "injectionNames": ["elixir"],
   "fileTypes": ["ex", "exs"],
+  "firstLineRegex": "^#![ \\t]*(?:(?:[^\\s]+[\\\\/])?(?:elixir(?:\\.bat)?)|(?:[^\\s]+[\\\\/])?env(?:\\.exe)?[ \\t]+(?:-S[ \\t]+)?(?:elixir(?:\\.bat)?))(?:[ \\t\\r\\n]|$)",
   "comments": {
     "start": "# "
   },
