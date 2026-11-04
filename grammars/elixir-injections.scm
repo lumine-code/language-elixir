@@ -3,7 +3,8 @@
   (quoted_content) @injection.content) @injection.owner
   (#eq? @_sigil_name "BASH")
   (#set! injection.language "bash")
-  (#set! injection.newlines-between))
+  (#set! injection.newlines-between)
+  (#set! injection.content-edit-policy "content-words"))
 
 ((comment) @injection.owner @injection.content
   (#set! injection.language "hyperlink")
