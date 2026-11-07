@@ -3,6 +3,9 @@ Source: https://github.com/elixir-lang/tree-sitter-elixir
 Commit: cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
 Ref: cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
 
+Parser source: github:elixir-lang/tree-sitter-elixir#cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
+Resolved commit: cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
+
 Original file: LICENSE
 
                                  Apache License
