@@ -13,9 +13,68 @@ describe("Elixir highlight query locality", () => {
 
   afterEach(() => editor?.destroy());
 
+  function reportSettlementFailure(languageMode) {
+    try {
+      const brief = (value, limit = 128) => String(value ?? "").slice(0, limit);
+      const errorState = (error, depth = 0) =>
+        !error || depth > 1
+          ? null
+          : {
+              name: brief(error.name),
+              code: brief(error.code),
+              reason: brief(error.reason),
+              message: brief(error.message, 512),
+              stack: brief(error.stack, 2048),
+              failure: error.failure && {
+                code: brief(error.failure.code),
+                reason: brief(error.failure.reason),
+                activeParseMs: error.failure.activeParseMs,
+                allocatedMemoryBytes: error.failure.allocatedMemoryBytes,
+              },
+              cause: errorState(error.cause, depth + 1),
+            };
+      const buffer = editor.getBuffer(),
+        currentMode = buffer.getLanguageMode();
+      const availability = editor.getSyntaxAvailability();
+      const logged = console.error(
+        "ELIXIR_QUERY_LOCALITY_SETTLEMENT_FAILURE " +
+          JSON.stringify({
+            mode: languageMode?.constructor?.name,
+            currentMode: currentMode?.constructor?.name,
+            sameMode: currentMode === languageMode,
+            destroyed: languageMode?.destroyed,
+            synchronous: languageMode?.shouldParseSynchronously?.(),
+            asynchronousSyntax: languageMode?.asynchronousSyntax,
+            parseError: errorState(languageMode?.lastTransactionParseError),
+            availability: {
+              available: availability.available,
+              reason: availability.reason,
+              failure: errorState({ failure: availability.failure }),
+            },
+            buffer: {
+              revision: buffer.getTextRevision(),
+              length: buffer.getLength(),
+              rows: buffer.getLineCount(),
+            },
+          }),
+      );
+      logged?.catch?.(() => {});
+    } catch {
+      // Preserve the original failed expectation even if diagnostics fail.
+    }
+  }
+
   async function setUp(text) {
     editor.setText(text);
-    expect(await editor.whenGrammarSettled()).toBe(true);
+    let languageMode;
+    try {
+      languageMode = editor.getBuffer().getLanguageMode();
+    } catch {
+      // A diagnostic read must not change the settlement result.
+    }
+    const settled = await editor.whenGrammarSettled();
+    if (!settled) reportSettlementFailure(languageMode);
+    expect(settled).toBe(true);
   }
 
   function rootNode() {
