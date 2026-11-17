@@ -18,6 +18,19 @@ describe("Elixir upstream grammar and injection regressions", () => {
     );
   });
 
+  it("keeps Bash fragments around escaped delimiters and parser recovery", async () => {
+    const text = String.raw`command = ~}BASH"echo \"quoted\" $HOME"`;
+    editor.setText(text);
+    expect(await editor.whenGrammarSettled()).toBe(true);
+    const root = editor.getSyntaxNodeAtBufferPosition([0, 0], (node) => !node.parent);
+    expect(root.hasError).toBe(true);
+    for (const fragment of ["echo", "quoted", "HOME"]) {
+      expect(
+        editor.scopeDescriptorForBufferPosition([0, text.indexOf(fragment)]).getScopesArray(),
+      ).toContain("source.shell");
+    }
+  });
+
   it("attaches do/end blocks to anonymous function calls", async () => {
     editor.setText("callback.() do\n  :ok\nend\n");
     expect(await editor.whenGrammarSettled()).toBe(true);
