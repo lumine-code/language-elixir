@@ -6,6 +6,9 @@ Ref: cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
 Parser source: github:elixir-lang/tree-sitter-elixir#cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
 Resolved commit: cb32ccbe17c67037b09e31bf9beb22cdae6ed8e9
 
+Parser source: github:elixir-lang/tree-sitter-elixir#549a016863d32733e3ec0e6d47a05d8f8076d2d6
+Resolved commit: 549a016863d32733e3ec0e6d47a05d8f8076d2d6
+
 Original file: LICENSE
 
                                  Apache License

@@ -55,4 +55,23 @@ describe("Elixir upstream grammar and injection regressions", () => {
     expect(await editor.whenGrammarSettled()).toBe(true);
     expect(editor.getText()).toBe("callback.() do\n  :ok\nend\n");
   });
+
+  it("keeps clause patterns whose identifiers start with word operators", async () => {
+    const patterns = ["invalid", "android", "order", "whenever"];
+    editor.setText(
+      patterns
+        .map(
+          (pattern) =>
+            `case value do\n  other ->\n    f(s)\n    %{s | id: 1}\n\n  ${pattern} ->\n    result\nend\n`,
+        )
+        .join("\n"),
+    );
+    expect(await editor.whenGrammarSettled()).toBe(true);
+    const root = editor.getSyntaxNodeAtBufferPosition([0, 0], (node) => !node.parent);
+    expect(root.hasError).toBe(false);
+    const clauses = root.descendantsOfType("stab_clause");
+    expect(clauses.map((clause) => clause.namedChildren[0].text)).toEqual(
+      patterns.flatMap((pattern) => ["other", pattern]),
+    );
+  });
 });
